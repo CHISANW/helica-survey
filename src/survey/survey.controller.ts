@@ -36,9 +36,6 @@ export class SurveyController {
   }
 
   private getClientIp(req: Request) {
-    const header = req.headers['x-forwarded-for'];
-
-    console.log('헤더는 : ', header);
     const rawIp = req.headers['x-forwarded-for']?.toString() || req.socket.remoteAddress || '';
     let clientIp = rawIp.split(',')[0].trim();
     if (clientIp.includes('::ffff:')) {
@@ -46,8 +43,6 @@ export class SurveyController {
     } else if (clientIp === '::1') {
       clientIp = '127.0.0.1';
     }
-
-    console.log(clientIp);
     return clientIp;
   }
 }

@@ -26,7 +26,6 @@ export class SurveyService {
 
   async submitSurvey(dto: CreateSurveyDto, clientIp: string, key: string = '') {
     const isKey = this.cacheKey.get(key);
-    console.log(isKey);
     if (key === '' || isKey === undefined) {
       throw new HttpException('접근이 불가능한 경로 입니다.', HttpStatus.FORBIDDEN);
     }
@@ -36,11 +35,13 @@ export class SurveyService {
         throw new HttpException('서버 오류', HttpStatus.INTERNAL_SERVER_ERROR);
       }
       if (newVar.email === '') {
+        console.error(`이메일 변경만 가능합니다. 사용자 아이디 : ${newVar.user_id}`);
         throw new HttpException(
           `이메일 변경만 가능합니다. 사용자 아이디 : ${newVar.user_id}`,
           HttpStatus.BAD_REQUEST,
         ); // 400 Bad Request 상태 코드
       }
+      console.error(`이미 설문이 완료된 상태입니다. 사용자 아이디 : ${newVar.user_id}`);
       throw new HttpException('이미 설문이 완료된 상태입니다.', HttpStatus.BAD_REQUEST); // 400 Bad Request 상태 코드
     }
     if (dto.notification_email) {
