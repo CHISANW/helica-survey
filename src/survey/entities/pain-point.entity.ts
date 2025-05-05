@@ -24,19 +24,19 @@ export class PainPoint {
   pain_type: PainType;
 
   @Column({ type: 'text', nullable: true })
-  custom_pain: string;
+  custom_pain: string | undefined;
 
   @ManyToOne(() => SurveyResponse, (surveyResponse) => surveyResponse.painPoints)
   @JoinColumn({ name: 'response_id' })
   surveyResponse: SurveyResponse;
 
-  constructor(response_id: number, pain_type: PainType, custom_pain: string) {
+  constructor(response_id: number, pain_type: PainType, custom_pain?: string) {
     this.response_id = response_id;
     this.pain_type = pain_type;
     this.custom_pain = custom_pain;
   }
 
-  static of(response_id: number, pain_type: PainType, custom_pain) {
+  static of(response_id: number, pain_type: PainType, custom_pain?: string) {
     return new PainPoint(response_id, pain_type, custom_pain);
   }
 }

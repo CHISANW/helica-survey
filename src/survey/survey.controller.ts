@@ -24,7 +24,7 @@ export class SurveyController {
   }
 
   @Post()
-  async create(@Body(new ValidationPipe()) createSurveyDto: CreateSurveyDto, @Req() req: Request) {
+  async create(@Body() createSurveyDto: CreateSurveyDto, @Req() req: Request) {
     const clientIp = this.getClientIp(req);
     const key = this.getHeaderKey(req);
     await this.surveyService.submitSurvey(createSurveyDto, clientIp, key);

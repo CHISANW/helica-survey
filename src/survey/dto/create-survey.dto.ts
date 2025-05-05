@@ -7,7 +7,7 @@ import {
   ValidateNested,
   ArrayMinSize,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   AgeGroup,
   ExerciseFrequency,
@@ -19,16 +19,19 @@ import { MethodType } from '../entities/check-method.entity';
 import { PainType } from '../entities/pain-point.entity';
 
 export class ExerciseReasonDto {
+  @Transform(({ value }) => ReasonType[value])
   @IsEnum(ReasonType)
   reason_type: ReasonType;
 }
 
 export class CheckMethodDto {
+  @Transform(({ value }) => MethodType[value])
   @IsEnum(MethodType)
   method_type: MethodType;
 }
 
 export class PainPointDto {
+  @Transform(({ value }) => PainType[value])
   @IsEnum(PainType)
   pain_type: PainType;
 
@@ -38,15 +41,19 @@ export class PainPointDto {
 }
 
 export class CreateSurveyDto {
+  @Transform(({ value }) => AgeGroup[value])
   @IsEnum(AgeGroup)
   age_group: AgeGroup;
 
+  @Transform(({ value }) => ExerciseFrequency[value])
   @IsEnum(ExerciseFrequency)
   exercise_frequency: ExerciseFrequency;
 
+  @Transform(({ value }) => BodyChangePerception[value])
   @IsEnum(BodyChangePerception)
   body_change_perception: BodyChangePerception;
 
+  @Transform(({ value }) => MotivationSatisfaction[value])
   @IsEnum(MotivationSatisfaction)
   motivation_satisfaction: MotivationSatisfaction;
 
