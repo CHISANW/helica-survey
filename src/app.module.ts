@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Config } from './config/config';
 import { SurveyModule } from './survey/survey.module';
@@ -7,6 +7,7 @@ import { CheckMethod } from './survey/entities/check-method.entity';
 import { ExerciseReason } from './survey/entities/exercise-reason.entity';
 import { PainPoint } from './survey/entities/pain-point.entity';
 import { SurveyResponse } from './survey/entities/survey-response.entity';
+import { LoggerMiddleware } from './logger-middleware';
 
 @Module({
   imports: [
@@ -23,6 +24,10 @@ import { SurveyResponse } from './survey/entities/survey-response.entity';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [LoggerMiddleware],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
