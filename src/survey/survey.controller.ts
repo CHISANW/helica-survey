@@ -41,12 +41,13 @@ export class SurveyController {
     console.log('헤더는 : ', header);
     const rawIp = req.headers['x-forwarded-for']?.toString() || req.socket.remoteAddress || '';
     let clientIp = rawIp.split(',')[0].trim();
-    console.log(clientIp);
     if (clientIp.includes('::ffff:')) {
       clientIp = clientIp.split('::ffff:')[1];
     } else if (clientIp === '::1') {
       clientIp = '127.0.0.1';
     }
+
+    console.log(clientIp);
     return clientIp;
   }
 }
