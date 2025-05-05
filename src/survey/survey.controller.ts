@@ -36,8 +36,12 @@ export class SurveyController {
   }
 
   private getClientIp(req: Request) {
+    const header = req.headers['x-forwarded-for'];
+
+    console.log('헤더는 : ', header);
     const rawIp = req.headers['x-forwarded-for']?.toString() || req.socket.remoteAddress || '';
     let clientIp = rawIp.split(',')[0].trim();
+    console.log(clientIp);
     if (clientIp.includes('::ffff:')) {
       clientIp = clientIp.split('::ffff:')[1];
     } else if (clientIp === '::1') {
